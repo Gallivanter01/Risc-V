@@ -1,0 +1,78 @@
+
+Discarded input sections
+
+ .text          0x00000000        0x0 ./build/start.o
+ .data          0x00000000        0x0 ./build/start.o
+ .bss           0x00000000        0x0 ./build/start.o
+ .text          0x00000000        0x0 ./build/example1.o
+ .data          0x00000000        0x0 ./build/example1.o
+ .bss           0x00000000        0x0 ./build/example1.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+pram             0x00000000         0x00000800
+dram             0x00000800         0x00000800
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /opt/riscv/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a
+                0x00000000                        . = 0x0
+
+.text           0x00000000       0x14
+ *(.text.entrypoint)
+ .text.entrypoint
+                0x00000000       0x14 ./build/start.o
+                0x00000000                __start
+                0x00000014                        _text_start = .
+ *(.text)
+                0x00000014                        _text_end = .
+
+.text.startup.main
+                0x00000014       0x88
+ .text.startup.main
+                0x00000014       0x88 ./build/example1.o
+                0x00000014                main
+
+.rela.dyn       0x0000009c        0x0
+ .rela.text.entrypoint
+                0x0000009c        0x0 ./build/start.o
+
+.ro             0x00000800        0x0
+                0x00000800                        . = ALIGN (0x4)
+                0x00000800                        _ro_start = .
+ *(.rodata*)
+                0x00000800                        _ro_end = .
+
+.data           0x00000800        0x0
+                0x00000800                        . = ALIGN (0x4)
+                0x00000800                        _data_start = .
+ *(.data)
+                0x00000800                        _data_end = .
+
+.bss            0x00000800        0x0
+                0x00000800                        . = ALIGN (0x4)
+                0x00000800                        _bss_start = .
+ *(.bss)
+                0x00000800                        _bss_end = .
+                0x00000ffc                        _USER_SP_ADDR = (((ORIGIN (pram) + LENGTH (pram)) + LENGTH (dram)) - 0x4)
+LOAD ./build/start.o
+LOAD ./build/example1.o
+OUTPUT(build/firmware_wish_riscv.elf elf32-littleriscv)
+
+.riscv.attributes
+                0x00000000       0x33
+ .riscv.attributes
+                0x00000000       0x31 ./build/start.o
+ .riscv.attributes
+                0x00000031       0x33 ./build/example1.o
+
+.comment        0x00000000       0x1b
+ .comment       0x00000000       0x1b ./build/example1.o
+                                 0x1c (size before relaxing)
+
+.note.GNU-stack
+                0x00000000        0x0
+ .note.GNU-stack
+                0x00000000        0x0 ./build/example1.o

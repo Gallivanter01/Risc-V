@@ -1,0 +1,8 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1782470266" />
+    <testcase name="test_core_from_hexfile" classname="test_example1" file="/home/wishuser/wish25-course/3_riscv/sim/test_example1.py" lineno="6" time="0.2543215751647949" sim_time_ns="10020.001" ratio_time="39398.94204220485">
+      <failure message="Test failed with RANDOM_SEED=1782470266" />
+    </testcase>
+  </testsuite>
+</testsuites>
